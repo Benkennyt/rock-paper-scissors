@@ -41,4 +41,12 @@ body{
     width: 130px;
     height: 40px;
     font-size: 15px;
+    cursor: pointer;
   }
+
+  .resetbtn:active{
+
+    background-color: rgb(101, 101, 101);
+    color: white;
+    
+    }
