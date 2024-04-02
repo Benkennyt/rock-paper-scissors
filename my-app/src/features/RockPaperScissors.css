@@ -2,6 +2,15 @@
    padding-top:40px ;
 }
 
+.reset-btn {
+    position: fixed;
+}
+
+.reset-btn button {
+    margin-left: 20px;
+    color: var(--white);
+}
+
 .rps-1{
     width: 40%;
     margin-left: auto;
@@ -226,4 +235,66 @@ button:hover {
     box-shadow: rgba(255, 255, 255, 0.05) 0px 0px 0px 40px, rgba(255, 255, 255, 0.05) 0px 0px 0px 80px, rgba(255, 255, 255, 0.05) 0px 0px 0px 120px;
 
     /* box-shadow: rgba(3, 102, 214, 0.3) 0px 0px 0px 3px; */
+}
+
+
+/* medial queries */
+@media screen and (max-width: 769px) {
+    .reset-btn {
+        bottom: 20px;
+    }   
+
+    .rps-1{
+        width: 85%;
+    }
+}
+
+@media screen and (max-width: 496px) {
+    .rps-2 {
+        width: 400px;
+    }
+
+    .rock-contnr {
+        width: 100%;
+        margin-bottom:80px ;
+    }
+}
+
+@media screen and (max-width: 422px) {
+
+    .rps-score {
+        width: 100px;
+    }
+
+    .rps-btn{
+        width: 130px;
+        height: 130px;
+    }
+
+    .white-inner {
+        width: 70%;
+        height: 70%;
+    }
+
+    .rps-2 {
+        width: 90%;
+    }
+
+
+    .rps-2 .triangle{ 
+        scale: .8;
+        top: 40%;
+        left: 40%;
+        transform: translate(-50%, -50%);
+    }
+
+    .paper-scissors {
+        margin-top: 40px;
+    }
+
+    .rock-contnr {
+        width: 100%;
+        margin-bottom:70px ;
+    }
+
 }

@@ -6,15 +6,17 @@ import { ReactComponent as Scissors } from '../assets/images/icon-scissors.svg';
 import { ReactComponent as Rock } from '../assets/images/icon-rock.svg';
 import { useEffect, useState } from 'react';
 
-const RockPaperScissors = () => {
-    const [score, setScore] = useState(0)
-    const [computerChoice, setComputerChoice] = useState('')
-    const [playerChoice, setPlayerChoice] = useState('')
+const RockPaperScissors = (props:any) => {
+    const {handleModalToggle} = props
+
     const [gameWon, setGameWon] = useState(false)
     const [gameLost, setGameLost] = useState(false)
-    const [reload, setReload] = useState(0)
-    let totalScore = localStorage.getItem('score')
-  
+    const [update, setUpdate] = useState(false)
+    let playerChoice = localStorage.getItem('playerChoice')
+    let computerChoice = localStorage.getItem('computerChoice')
+    let score  =  0 
+    let storedScore = parseInt(localStorage.getItem('score') || '');
+    
     useEffect(() => {
         if (localStorage.getItem('gameWon') == 'true') {
             setGameWon(true)
@@ -27,9 +29,13 @@ const RockPaperScissors = () => {
         }else {
             setGameLost(false)
         }
-        
-    }, [reload])
+    }, [update])
     
+
+    // change score to the local stored scores
+    if (storedScore) {
+        score = storedScore
+    }
 
     const handleGame = (btn: any) => {
 
@@ -39,42 +45,42 @@ const RockPaperScissors = () => {
         
         if (btn == 1 && computerChoiceNumber <= 0.33 ) {
             localStorage.setItem('gameWon', 'true')
-            setScore(score + 1)
+            score++
             localStorage.setItem('score', JSON.stringify(score))
-            setPlayerChoice('Paper')
-            setComputerChoice('Rock')
-            setReload(reload + 1)
+            localStorage.setItem('playerChoice', 'Paper' )
+            localStorage.setItem('computerChoice', 'Rock')
         }else if (btn == 2 && computerChoiceNumber >= 0.34 && computerChoiceNumber <= 0.66 ) {
             localStorage.setItem('gameWon', 'true')
-            setScore(score + 1)
+            score++
             localStorage.setItem('score', JSON.stringify(score))
-            setPlayerChoice('Scissors')
-            setComputerChoice('Paper')
-            setReload(reload + 1)
+            localStorage.setItem('playerChoice', 'Scissors' )
+            localStorage.setItem('computerChoice', 'Paper')
         }else if (btn == 3 && computerChoiceNumber >= 0.67 && computerChoiceNumber <= 0.99) {
             localStorage.setItem('gameWon', 'true')
-            setScore(score + 1)
+            score++
             localStorage.setItem('score', JSON.stringify(score))
-            setPlayerChoice('Rock')
-            setComputerChoice('Scissors')
-            setReload(reload + 1)
+            localStorage.setItem('playerChoice', 'Rock' )
+            localStorage.setItem('computerChoice', 'Scissors')
         }else {
             if (btn == 3){
                 localStorage.setItem('gameLost', 'true')
-                setPlayerChoice('Rock')
-                setComputerChoice('Paper')
-                setReload(reload + 1)
+                localStorage.setItem('playerChoice', 'Rock' )
+                localStorage.setItem('computerChoice', 'Paper')
             }else if (btn == 2) {
                 localStorage.setItem('gameLost','true')
-                setPlayerChoice('Scissors')
-                setComputerChoice('Rock')
-                setReload(reload + 1)
+                localStorage.setItem('playerChoice', 'Scissors' )
+                localStorage.setItem('computerChoice', 'Rock')
             }else if (btn == 1) {
                 localStorage.setItem('gameLost', 'true')
-                setPlayerChoice('Paper')
-                setComputerChoice('Scissors')
-                setReload(reload + 1)
+                localStorage.setItem('playerChoice', 'Paper' )
+                localStorage.setItem('computerChoice', 'Scissors')
             }
+        }
+
+        if (update) {
+            setUpdate(false)
+        } else{
+            setUpdate(true)
         }
     }
 
@@ -83,22 +89,38 @@ const RockPaperScissors = () => {
     const handlePlayAgain = () => {
         localStorage.setItem('gameWon', 'false')
         localStorage.setItem('gameLost', 'false')
-        setReload(0)
+        if (update) {
+            setUpdate(false)
+        } else{
+            setUpdate(true)
+        }
     }
+    
 
-    console.log(`won ${gameWon}`)
-    console.log(`lost ${gameLost}`)
-    console.log(computerChoice)
-    console.log(playerChoice)
-
+    const handleGameReset = () => { 
+        localStorage.clear()
+        score = 0
+        setGameLost(false)
+        setGameWon(false)
+        if (update) {
+            setUpdate(false)
+        } else{
+            setUpdate(true)
+        }
+    }
     
     return (
     <div className='rps-container'>
+        <div className="reset-btn">
+            <button onClick={handleGameReset}>
+                RESET GAME
+            </button>
+        </div>
         <div className="rps-1">
                 <Logo/>
             <div className="rps-score">
                 <p>SCORE</p>
-                <p>{totalScore}</p>
+                <p>{localStorage.getItem('score') || 0}</p>
             </div>
         </div>
         {gameWon || gameLost ? 
@@ -157,7 +179,7 @@ const RockPaperScissors = () => {
             </div>
         </div>}
         <div className="rules-btn">
-            <button>
+            <button onClick={handleModalToggle}>
                 RULES
             </button>
         </div>

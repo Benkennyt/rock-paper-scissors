@@ -5,6 +5,36 @@
   max-width: 2200px;
 }
 
+.modal-contnr-2 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-contnr-2 p {
+  font-weight: 600;
+  font-size: 30px;
+  margin: 0;
+  color: var(--dark-text);
+}
+
+.modal-contnr-2 svg {
+  width: 35px;
+  height: 35px;
+  opacity: .3;
+}
+
+.modal-contnr-2 svg:hover {
+  opacity: 1;
+}
+
+.modal-contnr-3 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 40px;
+}
+
 @media screen and (width >= 2200px) {
   .App {
     margin-left: auto;
