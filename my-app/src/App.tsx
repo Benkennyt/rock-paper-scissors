@@ -1,21 +1,70 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import RockPaperScissors from './features/RockPaperScissors';
 import ReactModal from 'react-modal';
 import { IoClose } from "react-icons/io5";
 import { ReactComponent as Rules1 } from './assets/images/image-rules.svg';
+import RockPaperScissorsV2 from './features/RockPaperScissorsV2';
 
 
 function App() {
   const [openModal, setopenModal] = useState(false)
+  const [gameWon, setGameWon] = useState(false)
+  const [gameLost, setGameLost] = useState(false)
+  const [update, setUpdate] = useState(false)
+  const [toggleGameV, settoggleGameV] = useState(false)
+
+  useEffect(() => {
+    if (localStorage.getItem('toggleGame') == 'true') {
+      settoggleGameV(true)
+    }else {
+      settoggleGameV(false)
+    }
+
+    if (localStorage.getItem('gameWon') == 'true') {
+      setGameWon(true)
+    }else {
+        setGameWon(false)
+    }
+
+    if (localStorage.getItem('gameLost') == 'true') {
+        setGameLost(true)
+    }else {
+        setGameLost(false)
+    }
+}, [update])
 
   const handleModalToggle = () => {
+
     if (openModal) {
       setopenModal(false)
     } else {
       setopenModal(true)
     }
   }
+
+  const handleGameToggle = () => {
+    if (toggleGameV) {
+      settoggleGameV(false)
+      setUpdate(true)
+      localStorage.removeItem('gameWon')
+      localStorage.removeItem('gameLost')
+      localStorage.removeItem('score')
+      localStorage.setItem('toggleGame', "false")
+      
+
+    } else {
+      settoggleGameV(true)
+      localStorage.removeItem('gameWon')
+      localStorage.removeItem('gameLost')
+      localStorage.removeItem('score')
+      localStorage.setItem('toggleGame', 'true')
+      setUpdate(false)
+    }
+  }
+
+  
+
   return (
     <div className="App">
       <ReactModal
@@ -48,7 +97,13 @@ function App() {
           </div>
         </div>
       </ReactModal>
-      <RockPaperScissors handleModalToggle={handleModalToggle}/>
+      {toggleGameV 
+      ? 
+      <RockPaperScissors handleModalToggle={handleModalToggle} handleGameToggle={handleGameToggle} gameWon={gameWon} setGameWon={setGameWon} gameLost={gameLost} setGameLost={setGameLost} update={update} setUpdate={setUpdate} />
+      :
+      <RockPaperScissorsV2 handleModalToggle={handleModalToggle} handleGameToggle={handleGameToggle} gameWon={gameWon} setGameWon={setGameWon} gameLost={gameLost} setGameLost={setGameLost} update={update} setUpdate={setUpdate} />}
+
+
     </div>
   );
 }

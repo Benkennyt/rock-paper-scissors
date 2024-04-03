@@ -13,7 +13,7 @@ body {
   --paper-gradient: hsl(230, 89%, 62%), hsl(230, 89%, 65%);
   --rock-gradient: hsl(349, 71%, 52%), hsl(349, 70%, 56%);
   --lizard-gradient: hsl(261, 73%, 60%), hsl(261, 72%, 63%);
-  --cyan: hsl(189, 59%, 53%), hsl(189, 58%, 57%);
+  --spock-gradient: hsl(189, 59%, 53%), hsl(189, 58%, 57%);
 }
 
 code {

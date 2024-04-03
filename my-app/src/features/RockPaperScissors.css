@@ -1,9 +1,16 @@
 .rps-container {
-   padding-top:40px ;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;  
 }
 
 .reset-btn {
+    padding-top: 20px;
     position: fixed;
+}
+
+.reset-btn-2{
+    display: none;
 }
 
 .reset-btn button {
@@ -11,10 +18,13 @@
     color: var(--white);
 }
 
+
+
 .rps-1{
     width: 40%;
     margin-left: auto;
     margin-right: auto;
+    margin-top: 20px;
     border: solid rgba(255, 255, 255, 0.297) 3px ;
     border-radius: 10px;
     display: flex;
@@ -22,6 +32,7 @@
     align-items: center;
     padding: 10px 15px 10px 20px;
 }
+
 
 .rps-1-a {
     text-align: left;
@@ -72,18 +83,23 @@
 /* rps buttons */
 
 .rps-2 {
+    flex: 1; 
+}
+
+.rps-2-a {
     position: relative;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 480px;
-    height: 440px;
+    width: 440px;
+    height: 400px;
     margin-top: 30px;
+    margin-bottom: 50px;
     margin-left: auto;
-    margin-right: auto; 
+    margin-right: auto;
 }
 
-.rps-2 .triangle{
+.rps-2-a .triangle{
     position: absolute;
     top: 50%;
     left: 50%;
@@ -101,17 +117,17 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 170px;
-    height: 170px;
+    width: 180px;
+    height: 180px;
     border-radius: 50%;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px, inset 0px -7px rgba(0,0,0,0.24);
     cursor: pointer;
-    transition: all .1s ease-in-out;
 }
 
 .rps-btn:hover {
     filter: brightness(75%);
     scale: .9;
+    transition: all .1s ease-in-out;
 }
 
 
@@ -148,13 +164,16 @@
     background: linear-gradient(var(--rock-gradient));
 }
 
-/* rules button */
+/* rules and switch button */ 
+
+
 
 .rules-btn {
     width: 100%;
     height: fit-content;
     display: flex;
-    justify-content: right;
+    justify-content: space-between;
+    padding-bottom: 10px;
 }
 
 
@@ -176,16 +195,27 @@ button:hover {
 }
 
 .rules-btn button {
-    position: fixed;
-    bottom: 20px;
     margin-right: 30px;
     color: var(--white);
+}
 
-    
+.switch-btn-1 {
+    background-color: var(--white);
+    color: var(--dark-text) !important;
+    font-weight: 700;
+    width: 300px;
+    margin-left: 30px;
 }
 
 
 /* game-result */
+
+
+.game-result{
+    min-height: 400px;
+    margin-bottom: 50px;
+    flex:1 ;
+}
 
 .game-result-1 {
     display: flex;
@@ -194,6 +224,10 @@ button:hover {
     align-items: center;
     gap: 120px;
     margin-top: 40px;
+}
+
+.pa-btn-2 {
+    display: none;
 }
 
 .game-result-2 {
@@ -209,7 +243,8 @@ button:hover {
 }
 
 .result {
-    scale: 1.5
+    
+    z-index: 10;
 }
 
 .play-again-btn p{
@@ -233,30 +268,113 @@ button:hover {
 
 .rings {
     box-shadow: rgba(255, 255, 255, 0.05) 0px 0px 0px 40px, rgba(255, 255, 255, 0.05) 0px 0px 0px 80px, rgba(255, 255, 255, 0.05) 0px 0px 0px 120px;
-
-    /* box-shadow: rgba(3, 102, 214, 0.3) 0px 0px 0px 3px; */
+    z-index: 0;
 }
 
 
 /* medial queries */
+
+@media screen and (max-width: 938px) {
+
+    .game-result {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .game-result-1 {
+        width: 90VW;
+        justify-content: space-around !important;
+        margin-top: 20px;
+    }
+    
+    .pa-btn-1{
+        display: none;
+    }
+
+    .pa-btn-2{
+        display: unset !important;
+        margin: 30px !important;
+        margin-bottom: 100px;
+    }
+    
+    .game-result-2 {
+        display:flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    
+}
+
 @media screen and (max-width: 769px) {
     .reset-btn {
+        position: unset;
         bottom: 20px;
-    }   
+    }  
+    
+    .reset-btn-1 {
+        display: none;
+    }
+
+    .reset-btn-2{
+        display: unset;
+    }
+
+    .reset-btn-2 button {
+        width: 200px;
+    }
 
     .rps-1{
         width: 85%;
     }
+
+    .switch-btn-1 {
+        background-color: var(--white);
+        color: var(--dark-text) !important;
+        font-weight: 700;
+        width: 200px;
+        margin-left: 30px;
+    }
+}
+
+@media screen and (max-width: 543px) {
+    .result {
+        scale: .9;
+    }
+
+    .game-result-1 {
+        width: 95vw;
+        margin-left: 10px;
+        gap: 0px;
+    }
+
+    .game-result-2 {
+        gap: 20px;
+    }
+
+    .game-result-2 p {
+        font-size: 20px;
+    }
+
+    .play-again-btn {
+        margin-top: 20px;
+    }
 }
 
 @media screen and (max-width: 496px) {
-    .rps-2 {
+    .rps-2-a {
         width: 400px;
     }
 
     .rock-contnr {
         width: 100%;
-        margin-bottom:80px ;
+        margin-top: -80px;
+    }
+
+    .rules-btn {
+        margin-top: 30px;
     }
 }
 
@@ -276,12 +394,12 @@ button:hover {
         height: 70%;
     }
 
-    .rps-2 {
+    .rps-2-a {
         width: 90%;
     }
 
 
-    .rps-2 .triangle{ 
+    .rps-2-a .triangle{ 
         scale: .8;
         top: 40%;
         left: 40%;
@@ -296,5 +414,20 @@ button:hover {
         width: 100%;
         margin-bottom:70px ;
     }
+}
 
+@media screen and (max-width: 377px) {
+    .result {
+        width: 120px;
+        height: 120px;
+    }
+
+    .game-result-2 p {
+        font-size: 15px;
+    }
+
+    .switch-btn-2 {
+        width: 95%;
+    }
+    
 }

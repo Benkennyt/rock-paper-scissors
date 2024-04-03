@@ -1,0 +1,142 @@
+.rpssl-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column; 
+    
+}
+
+/* rps buttons */
+
+.rpssl-2 {
+    flex: 1; 
+}
+
+.rpssl-2-a {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 450px;
+    height: 400px;
+    margin-top: 30px;
+    margin-bottom: 50px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.rpssl-2-a .pentagon{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+}
+
+.paper-contnr {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    z-index: 1;
+    
+}
+
+.spock-scissors {
+    display: flex;
+    justify-content: space-between;
+    z-index: 0;
+    margin-top: -60px;
+}
+
+.rock-lizard {
+    display: flex;
+    justify-content: space-around;
+    z-index: 1;
+}
+
+.rpssl-btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px, inset 0px -7px rgba(0,0,0,0.24);
+    cursor: pointer;
+}
+
+.rpssl-btn:hover {
+    filter: brightness(75%);
+    transition: all .1s ease-in-out;
+    scale: .9;
+}
+
+
+.white-inner-a {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    background-color: var(--white);
+    box-shadow: inset 0px 7px rgba(0,0,0,0.24);
+}
+
+
+.spock {
+    background: linear-gradient(var(--spock-gradient));
+}
+
+.lizard {
+    background: linear-gradient(var(--lizard-gradient));
+}
+
+
+
+
+/* medial queries */
+
+@media screen and (max-width: 480px) {
+    .rpssl-2-a {
+        width: 95%;
+    }
+}
+
+@media screen and (max-width: 408px) {
+
+    .rpssl-2-a{
+        height: 330px;
+        width: 90%;
+    }
+
+    .rpssl-btn {
+        height: 120px;
+        width: 120px;
+    }
+
+    .white-inner-a {
+        height: 90px;
+        width: 90px;
+    }
+
+    .pentagon svg {
+       scale: .7;
+    }
+}
+
+@media screen and (max-width: 353px) {
+    .rpssl-btn {
+        height: 90px;
+        width: 90px;
+    }
+
+    .white-inner-a {
+        height: 70px;
+        width: 70px;
+    }
+
+    .rpssl-2-a{
+        height: 250px;
+        width: 90%;
+    }
+}

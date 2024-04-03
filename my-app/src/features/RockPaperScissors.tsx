@@ -7,30 +7,12 @@ import { ReactComponent as Rock } from '../assets/images/icon-rock.svg';
 import { useEffect, useState } from 'react';
 
 const RockPaperScissors = (props:any) => {
-    const {handleModalToggle} = props
+    const {handleModalToggle, handleGameToggle, gameWon, setGameWon, gameLost, setGameLost, update, setUpdate} = props
 
-    const [gameWon, setGameWon] = useState(false)
-    const [gameLost, setGameLost] = useState(false)
-    const [update, setUpdate] = useState(false)
     let playerChoice = localStorage.getItem('playerChoice')
     let computerChoice = localStorage.getItem('computerChoice')
     let score  =  0 
     let storedScore = parseInt(localStorage.getItem('score') || '');
-    
-    useEffect(() => {
-        if (localStorage.getItem('gameWon') == 'true') {
-            setGameWon(true)
-        }else {
-            setGameWon(false)
-        }
-
-        if (localStorage.getItem('gameLost') == 'true') {
-            setGameLost(true)
-        }else {
-            setGameLost(false)
-        }
-    }, [update])
-    
 
     // change score to the local stored scores
     if (storedScore) {
@@ -98,7 +80,9 @@ const RockPaperScissors = (props:any) => {
     
 
     const handleGameReset = () => { 
-        localStorage.clear()
+        localStorage.removeItem('gameWon')
+        localStorage.removeItem('gameLost')
+        localStorage.removeItem('score')
         score = 0
         setGameLost(false)
         setGameWon(false)
@@ -111,18 +95,20 @@ const RockPaperScissors = (props:any) => {
     
     return (
     <div className='rps-container'>
-        <div className="reset-btn">
+        <div className="reset-btn-1 reset-btn">
             <button onClick={handleGameReset}>
                 RESET GAME
             </button>
         </div>
+        
         <div className="rps-1">
-                <Logo/>
-            <div className="rps-score">
-                <p>SCORE</p>
-                <p>{localStorage.getItem('score') || 0}</p>
-            </div>
+                    <Logo/>
+                <div className="rps-score">
+                    <p>SCORE</p>
+                    <p>{localStorage.getItem('score') || 0}</p>
+                </div>
         </div>
+
         {gameWon || gameLost ? 
         <div className='game-result'>
             <div className="game-result-1">
@@ -135,7 +121,7 @@ const RockPaperScissors = (props:any) => {
                     </div>
                 </div>
 
-                <div className="play-again-btn">
+                <div className="play-again-btn pa-btn-1">
                     {gameWon ? <p>YOU WIN</p> : gameLost ? <p>YOU LOSE</p> : ''}
                     <button onClick={handlePlayAgain}>
                         PLAY AGAIN
@@ -150,35 +136,52 @@ const RockPaperScissors = (props:any) => {
                         </div>
                     </div>
                 </div>  
+            </div>
 
+            <div className="play-again-btn pa-btn-2">
+                {gameWon ? <p>YOU WIN</p> : gameLost ? <p>YOU LOSE</p> : ''}
+                <button onClick={handlePlayAgain}>
+                    PLAY AGAIN
+                </button>
             </div>
         </div> 
         :
         <div className="rps-2">
-            <div className="triangle">
-                <BGTriangle/>
+            <div className="rps-2-a">
+                <div className="triangle">
+                    <BGTriangle/>
+                </div>
+                <div className="paper-scissors">
+                    <div onClick={() => handleGame(1)} className="paper rps-btn">
+                        <div className="white-inner">
+                            <Paper/>
+                        </div>
+                    </div>
+                    <div onClick={() => handleGame(2)} className="scissors rps-btn">
+                        <div className="white-inner">
+                            <Scissors/>
+                        </div>
+                    </div>
+                </div>
+                <div className="rock-contnr">
+                    <div onClick={() => handleGame(3)} className="rock rps-btn">
+                        <div className="white-inner">
+                            <Rock/>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div className="paper-scissors">
-                <div onClick={() => handleGame(1)} className="paper rps-btn">
-                    <div className="white-inner">
-                        <Paper/>
-                    </div>
-                </div>
-                <div onClick={() => handleGame(2)} className="scissors rps-btn">
-                    <div className="white-inner">
-                        <Scissors/>
-                    </div>
-                </div>
-            </div>
-            <div className="rock-contnr">
-                <div onClick={() => handleGame(3)} className="rock rps-btn">
-                    <div className="white-inner">
-                        <Rock/>
-                    </div>
-                </div>
+            <div className="reset-btn-2 reset-btn">
+                <button onClick={handleGameReset}>
+                    RESET GAME
+                </button>
             </div>
         </div>}
+
         <div className="rules-btn">
+            <button className='switch-btn-1' onClick={handleGameToggle}>
+                Switch Version
+            </button>
             <button onClick={handleModalToggle}>
                 RULES
             </button>
