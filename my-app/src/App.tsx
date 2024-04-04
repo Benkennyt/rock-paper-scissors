@@ -4,6 +4,7 @@ import RockPaperScissors from './features/RockPaperScissors';
 import ReactModal from 'react-modal';
 import { IoClose } from "react-icons/io5";
 import { ReactComponent as Rules1 } from './assets/images/image-rules.svg';
+import { ReactComponent as Rules2 } from './assets/images/image-rules-bonus.svg';
 import RockPaperScissorsV2 from './features/RockPaperScissorsV2';
 
 
@@ -11,6 +12,7 @@ function App() {
   const [openModal, setopenModal] = useState(false)
   const [gameWon, setGameWon] = useState(false)
   const [gameLost, setGameLost] = useState(false)
+  const [gameDrew, setGameDrew] = useState(false)
   const [update, setUpdate] = useState(false)
   const [toggleGameV, settoggleGameV] = useState(false)
 
@@ -24,13 +26,19 @@ function App() {
     if (localStorage.getItem('gameWon') == 'true') {
       setGameWon(true)
     }else {
-        setGameWon(false)
+      setGameWon(false)
     }
 
     if (localStorage.getItem('gameLost') == 'true') {
-        setGameLost(true)
+      setGameLost(true)
     }else {
-        setGameLost(false)
+      setGameLost(false)
+    }
+
+    if (localStorage.getItem('gameDrew') == 'true') {
+      setGameDrew(true)
+    }else {
+      setGameDrew(false)
     }
 }, [update])
 
@@ -44,23 +52,27 @@ function App() {
   }
 
   const handleGameToggle = () => {
+    localStorage.removeItem('gameWon')
+    localStorage.removeItem('gameLost')
+    localStorage.removeItem('gameDrew')
+    localStorage.removeItem('score')
+    localStorage.removeItem('computerChoice')
+    localStorage.removeItem('playerChoice')
+    setGameDrew(false)
+    setGameLost(false)
+    setGameWon(false)
+
     if (toggleGameV) {
+      localStorage.setItem('toggleGame', "false")
       settoggleGameV(false)
       setUpdate(true)
-      localStorage.removeItem('gameWon')
-      localStorage.removeItem('gameLost')
-      localStorage.removeItem('score')
-      localStorage.setItem('toggleGame', "false")
-      
 
     } else {
+      localStorage.setItem('toggleGame', "true")
       settoggleGameV(true)
-      localStorage.removeItem('gameWon')
-      localStorage.removeItem('gameLost')
-      localStorage.removeItem('score')
-      localStorage.setItem('toggleGame', 'true')
       setUpdate(false)
     }
+
   }
 
   
@@ -71,7 +83,7 @@ function App() {
         isOpen={openModal}
         style={
           { overlay: {zIndex:'200', background:'rgba(0, 0, 0, 0.505'}, 
-          content: {width:'370px', height: '370px', top: '50%',
+          content: {width:'370px', height: 'fit-content', top: '50%',
           left: '50%',
           right: 'auto',
           bottom: 'auto',
@@ -88,20 +100,23 @@ function App() {
         <div className='modal-contnr'>
           <div className="modal-contnr-2">
             <p>RULES</p>
-            <div onClick={handleModalToggle}>
+            <div className='close-btn-1' onClick={handleModalToggle}>
               <IoClose/>
             </div>
           </div>
           <div className="modal-contnr-3">
-            <Rules1/>
+            {toggleGameV ? <Rules1/> : <Rules2/>}
           </div>
+          <div className='close-btn-2' onClick={handleModalToggle}>
+              <IoClose/>
+            </div>
         </div>
       </ReactModal>
       {toggleGameV 
       ? 
-      <RockPaperScissors handleModalToggle={handleModalToggle} handleGameToggle={handleGameToggle} gameWon={gameWon} setGameWon={setGameWon} gameLost={gameLost} setGameLost={setGameLost} update={update} setUpdate={setUpdate} />
+      <RockPaperScissors handleModalToggle={handleModalToggle} handleGameToggle={handleGameToggle} gameWon={gameWon} setGameWon={setGameWon} gameLost={gameLost} setGameLost={setGameLost} update={update} setUpdate={setUpdate} gameDrew={gameDrew} setGameDrew={setGameDrew} />
       :
-      <RockPaperScissorsV2 handleModalToggle={handleModalToggle} handleGameToggle={handleGameToggle} gameWon={gameWon} setGameWon={setGameWon} gameLost={gameLost} setGameLost={setGameLost} update={update} setUpdate={setUpdate} />}
+      <RockPaperScissorsV2 handleModalToggle={handleModalToggle} handleGameToggle={handleGameToggle} gameWon={gameWon} setGameWon={setGameWon} gameLost={gameLost} setGameLost={setGameLost} update={update} setUpdate={setUpdate} gameDrew={gameDrew} setGameDrew={setGameDrew} />}
 
 
     </div>

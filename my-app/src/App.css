@@ -19,7 +19,11 @@
   color: var(--dark-text);
 }
 
-.modal-contnr-2 svg {
+.close-btn-2{
+  display: none;
+}
+
+.modal-contnr-2 svg, .close-btn-2 svg {
   width: 35px;
   height: 35px;
   opacity: .3;
@@ -33,7 +37,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 40px;
 }
 
 @media screen and (width >= 2200px) {
@@ -42,4 +45,35 @@
     margin-right: auto;
   }
 }
+
+@media screen and (width <= 426px) {
+  .ReactModal__Content ,.ReactModal__Content--after-open{
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  .close-btn-1{
+    display: none;
+  }
+
+  .close-btn-2{
+    display: unset;
+  }
+
+  .modal-contnr {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+  }
+}
+
+@media screen and (width <= 358px) {
+  .modal-contnr-3 {
+    scale: .9;
+  }
+}
+
+
 

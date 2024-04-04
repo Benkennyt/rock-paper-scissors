@@ -7,7 +7,7 @@ import { ReactComponent as Rock } from '../assets/images/icon-rock.svg';
 import { useEffect, useState } from 'react';
 
 const RockPaperScissors = (props:any) => {
-    const {handleModalToggle, handleGameToggle, gameWon, setGameWon, gameLost, setGameLost, update, setUpdate} = props
+    const {handleModalToggle, handleGameToggle, gameWon, setGameWon, gameLost, setGameLost, update, setUpdate, gameDrew, setGameDrew} = props
 
     let playerChoice = localStorage.getItem('playerChoice')
     let computerChoice = localStorage.getItem('computerChoice')
@@ -25,6 +25,7 @@ const RockPaperScissors = (props:any) => {
         let computerChoiceNumber  = Math.random();
         console.log(computerChoiceNumber)
         
+        // if player win
         if (btn == 1 && computerChoiceNumber <= 0.33 ) {
             localStorage.setItem('gameWon', 'true')
             score++
@@ -43,7 +44,23 @@ const RockPaperScissors = (props:any) => {
             localStorage.setItem('score', JSON.stringify(score))
             localStorage.setItem('playerChoice', 'Rock' )
             localStorage.setItem('computerChoice', 'Scissors')
-        }else {
+        }
+        // if draw
+        else if (btn == 1 && computerChoiceNumber >= 0.34 && computerChoiceNumber <= 0.66) {
+            localStorage.setItem('gameDrew', 'true')
+            localStorage.setItem('computerChoice', 'Paper')
+            localStorage.setItem('playerChoice', 'Paper')
+        }else if (btn == 2 && computerChoiceNumber >= 0.67 && computerChoiceNumber <= 0.99) {
+            localStorage.setItem('gameDrew', 'true')
+            localStorage.setItem('computerChoice', 'Scissors')
+            localStorage.setItem('playerChoice', 'Scissors')
+        }else if (btn == 3 && computerChoiceNumber >= 0 && computerChoiceNumber <= 0.33) {
+            localStorage.setItem('gameDrew', 'true')
+            localStorage.setItem('computerChoice', 'Rock')
+            localStorage.setItem('playerChoice', 'Rock')
+        }
+        // if player lose
+        else {
             if (btn == 3){
                 localStorage.setItem('gameLost', 'true')
                 localStorage.setItem('playerChoice', 'Rock' )
@@ -71,6 +88,7 @@ const RockPaperScissors = (props:any) => {
     const handlePlayAgain = () => {
         localStorage.setItem('gameWon', 'false')
         localStorage.setItem('gameLost', 'false')
+        localStorage.setItem('gameDrew', 'false')
         if (update) {
             setUpdate(false)
         } else{
@@ -82,10 +100,12 @@ const RockPaperScissors = (props:any) => {
     const handleGameReset = () => { 
         localStorage.removeItem('gameWon')
         localStorage.removeItem('gameLost')
+        localStorage.removeItem('gameDrew')
         localStorage.removeItem('score')
         score = 0
         setGameLost(false)
         setGameWon(false)
+        setGameDrew(false)
         if (update) {
             setUpdate(false)
         } else{
@@ -109,7 +129,7 @@ const RockPaperScissors = (props:any) => {
                 </div>
         </div>
 
-        {gameWon || gameLost ? 
+        {gameWon || gameLost || gameDrew ? 
         <div className='game-result'>
             <div className="game-result-1">
                 <div className="game-result-2">
@@ -122,7 +142,7 @@ const RockPaperScissors = (props:any) => {
                 </div>
 
                 <div className="play-again-btn pa-btn-1">
-                    {gameWon ? <p>YOU WIN</p> : gameLost ? <p>YOU LOSE</p> : ''}
+                    {gameWon ? <p>YOU WIN</p> : gameLost ? <p>YOU LOSE</p>: gameDrew ? <p>DRAW</p> : ''}
                     <button onClick={handlePlayAgain}>
                         PLAY AGAIN
                     </button>
@@ -139,7 +159,7 @@ const RockPaperScissors = (props:any) => {
             </div>
 
             <div className="play-again-btn pa-btn-2">
-                {gameWon ? <p>YOU WIN</p> : gameLost ? <p>YOU LOSE</p> : ''}
+                {gameWon ? <p>YOU WIN</p> : gameLost ? <p>YOU LOSE</p>: gameDrew ? <p>DRAW</p> : ''}
                 <button onClick={handlePlayAgain}>
                     PLAY AGAIN
                 </button>

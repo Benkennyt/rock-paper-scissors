@@ -11,7 +11,7 @@ import { ReactComponent as Spock } from '../assets/images/icon-spock.svg';
 
 
 const RockPaperScissorsV2 = (props:any) => {
-    const {handleModalToggle, handleGameToggle, gameWon, setGameWon, gameLost, setGameLost, update, setUpdate} = props
+    const {handleModalToggle, handleGameToggle, gameWon, setGameWon, gameLost, setGameLost, update, setUpdate, gameDrew, setGameDrew} = props
 
     let playerChoice = localStorage.getItem('playerChoice')
     let computerChoice = localStorage.getItem('computerChoice')
@@ -29,6 +29,7 @@ const RockPaperScissorsV2 = (props:any) => {
         let computerChoiceNumber  = Math.random();
         console.log(computerChoiceNumber)
         
+        // If player won
         if (btn == 1 && computerChoiceNumber >= 0.4 && computerChoiceNumber <= 0.79 ) {
             localStorage.setItem('gameWon', 'true')
             score++
@@ -79,7 +80,31 @@ const RockPaperScissorsV2 = (props:any) => {
             } else {
                 localStorage.setItem('computerChoice', 'Scissors')
             }
-        }else {
+        }
+        // If draw
+        else if (btn == 1 && computerChoiceNumber >= 0.2 && computerChoiceNumber <= 0.39) {
+            localStorage.setItem('gameDrew', 'true')
+            localStorage.setItem('computerChoice', 'Paper')
+            localStorage.setItem('playerChoice', 'Paper')
+        }else if (btn == 2 && computerChoiceNumber >= 0.4 && computerChoiceNumber <= 0.59) {
+            localStorage.setItem('gameDrew', 'true')
+            localStorage.setItem('computerChoice', 'Spock')
+            localStorage.setItem('playerChoice', 'Spock')
+        }else if (btn == 3 && computerChoiceNumber >= 0.8 && computerChoiceNumber <= 0.99) {
+            localStorage.setItem('gameDrew', 'true')
+            localStorage.setItem('computerChoice', 'Scissors')
+            localStorage.setItem('playerChoice', 'Scissors')
+        }else if (btn == 4 && computerChoiceNumber >= 0 && computerChoiceNumber <= 0.19) {
+            localStorage.setItem('gameDrew', 'true')
+            localStorage.setItem('computerChoice', 'Lizard')
+            localStorage.setItem('playerChoice', 'Lizard')
+        }else if (btn == 5 && computerChoiceNumber >= 0.6 && computerChoiceNumber <= 0.79) {
+            localStorage.setItem('gameDrew', 'true')
+            localStorage.setItem('computerChoice', 'Rock')
+            localStorage.setItem('playerChoice', 'Rock')
+        }
+        // If player lose
+        else {
             if (btn == 1){
                 localStorage.setItem('gameLost', 'true')
                 if (computerChoiceNumber <= 0.19) {
@@ -133,6 +158,7 @@ const RockPaperScissorsV2 = (props:any) => {
     const handlePlayAgain = () => {
         localStorage.setItem('gameWon', 'false')
         localStorage.setItem('gameLost', 'false')
+        localStorage.setItem('gameDrew', 'false')
         if (update) {
             setUpdate(false)
         } else{
@@ -144,10 +170,12 @@ const RockPaperScissorsV2 = (props:any) => {
     const handleGameReset = () => { 
         localStorage.removeItem('gameWon')
         localStorage.removeItem('gameLost')
+        localStorage.removeItem('gameDrew')
         localStorage.removeItem('score')
         score = 0
         setGameLost(false)
         setGameWon(false)
+        setGameDrew(false)
         if (update) {
             setUpdate(false)
         } else{
@@ -169,20 +197,20 @@ const RockPaperScissorsV2 = (props:any) => {
                 <p>{localStorage.getItem('score') || 0}</p>
             </div>
         </div>
-        {gameWon || gameLost ? 
+        {gameWon || gameLost || gameDrew ? 
         <div className='game-result'>
             <div className="game-result-1">
                 <div className="game-result-2">
                     <p>YOU PICKED</p>
-                    <div className={playerChoice == 'Paper' && !gameWon ? "paper result" : playerChoice == 'Rock' && !gameWon ? "rock result" : playerChoice == "Scissors" && !gameWon ? "scissors result": playerChoice == "Spock" && !gameWon ? "spock result":playerChoice == "Lizard" && !gameWon ? "lizard result" : playerChoice == 'Paper' && gameWon ? "paper result rings" : playerChoice == 'Rock' && gameWon ? "rock result rings" : playerChoice == "Scissors" && gameWon ? "scissors result rings":playerChoice == "Spock" && gameWon ? "spock result rings" : ''}>
-                        <div className={gameWon ? "white-inner":playerChoice == "Lizard" && gameWon ? "lizard result rings" : "white-inner"}>
+                    <div className={playerChoice == 'Paper' && !gameWon ? "paper result" : playerChoice == 'Rock' && !gameWon ? "rock result" : playerChoice == "Scissors" && !gameWon ? "scissors result": playerChoice == "Spock" && !gameWon ? "spock result": playerChoice == "Lizard" && !gameWon ? "lizard result" : playerChoice == 'Paper' && gameWon ? "paper result rings" : playerChoice == 'Rock' && gameWon ? "rock result rings" : playerChoice == "Scissors" && gameWon ? "scissors result rings": playerChoice == "Spock" && gameWon ? "spock result rings": playerChoice == "Lizard" && gameWon ? "lizard result rings" : ''}>
+                        <div className={gameWon ? "white-inner" : "white-inner"}>
                             {playerChoice == 'Paper' ? <Paper/> : playerChoice == 'Rock' ? <Rock/> : playerChoice == 'Scissors' ? <Scissors/> :playerChoice == 'Spock' ? <Spock/>:playerChoice == 'Lizard' ? <Lizard/>  : '' }
                         </div>
                     </div>
                 </div>
 
                 <div className="play-again-btn pa-btn-1">
-                    {gameWon ? <p>YOU WIN</p> : gameLost ? <p>YOU LOSE</p> : ''}
+                    {gameWon ? <p>YOU WIN</p> : gameLost ? <p>YOU LOSE</p>: gameDrew ? <p>DRAW</p> : ''}
                     <button onClick={handlePlayAgain}>
                         PLAY AGAIN
                     </button>
@@ -199,7 +227,7 @@ const RockPaperScissorsV2 = (props:any) => {
             </div>
 
             <div className="play-again-btn pa-btn-2">
-                    {gameWon ? <p>YOU WIN</p> : gameLost ? <p>YOU LOSE</p> : ''}
+                    {gameWon ? <p>YOU WIN</p> : gameLost ? <p>YOU LOSE</p> : gameDrew ? <p>DRAW</p> : ''}
                     <button onClick={handlePlayAgain}>
                         PLAY AGAIN
                     </button>
